@@ -1,18 +1,33 @@
 import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, View } from 'react-native';
+import { createBottomTabNavigator, createAppContainer } from 'react-navigation';
+import AddDeck from './components/AddDeck';
+import DeckList from './components/DeckList';
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#fff',
-    alignItems: 'center',
     justifyContent: 'center',
   },
 });
 
+const Tabs = createBottomTabNavigator({
+  DeckList: {
+    screen: DeckList,
+  },
+  AddDeck: {
+    screen: AddDeck,
+  },
+});
+
+// TODO: Add navigation
+// eslint-disable-next-line no-unused-vars
+const TabNavigator = createAppContainer(Tabs);
+
 const App = () => (
   <View style={styles.container}>
-    <Text> Hello Aimen! </Text>
+    <DeckList />
   </View>
 );
 
