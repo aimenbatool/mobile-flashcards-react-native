@@ -4,6 +4,7 @@ module.exports = {
         "es6": true
     },
     "extends": "airbnb",
+    "parser": "babel-eslint",
     "globals": {
         "Atomics": "readonly",
         "SharedArrayBuffer": "readonly"
@@ -22,3 +23,4 @@ module.exports = {
         "react/jsx-filename-extension": [1, { "extensions": [".js", ".jsx"] }]
     }
 };
+
