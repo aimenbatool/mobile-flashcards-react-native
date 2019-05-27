@@ -5,6 +5,9 @@ import DeckList from './components/DeckList';
 import DeckView from './components/DeckView';
 
 const Tabs = createBottomTabNavigator({
+  AddDeck: {
+    screen: AddDeck,
+  },
   Deck: {
     screen: DeckView,
   },
@@ -13,8 +16,6 @@ const Tabs = createBottomTabNavigator({
   },
 });
 
-// TODO: Add navigation
-// eslint-disable-next-line no-unused-vars
 const TabNavigator = createAppContainer(Tabs);
 
 const App = () => (<TabNavigator />);
