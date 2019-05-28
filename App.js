@@ -5,8 +5,12 @@ import DeckList from './components/DeckList';
 import DeckView from './components/DeckView';
 import AddQuestion from './components/AddQuestion';
 import QuizView from './components/QuizView';
+import AnswerView from './components/AnswerView';
 
 const Tabs = createBottomTabNavigator({
+  AnswerView: {
+    screen: AnswerView,
+  },
   QuizView: {
     screen: QuizView,
   },

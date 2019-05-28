@@ -21,7 +21,7 @@ const styles = {
   },
   answer: {
     height: 50,
-    backgroundColor: '#E5E6EB',
+    backgroundColor: '#29AB87',
     borderWidth: 0.5,
     borderColor: '#afafaf',
     width: 300,
@@ -38,7 +38,7 @@ const QuizView = () => (
     </View>
     <View style={styles.answer}>
       <TouchableOpacity>
-        <Text style={{ textAlign: 'center', fontSize: 20 }}> Answer </Text>
+        <Text style={{ textAlign: 'center', fontSize: 20, color: 'white' }}> Answer </Text>
       </TouchableOpacity>
     </View>
   </View>
