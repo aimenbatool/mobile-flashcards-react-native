@@ -1,5 +1,10 @@
 import React from 'react';
-import { View, Text, StyleSheet } from 'react-native';
+import {
+  View,
+  Text,
+  StyleSheet,
+  ScrollView,
+} from 'react-native';
 
 const styles = StyleSheet.create({
   deck: {
@@ -19,9 +24,9 @@ const styles = StyleSheet.create({
 });
 
 const DeckList = () => (
-  <View>
-    <View style={[styles.deck, { backgroundColor: '#89b4c4' }]}>
-      <Text style={styles.deckText}> ReactJS </Text>
+  <ScrollView>
+    <View style={[styles.deck, { backgroundColor: '#548999' }]}>
+      <Text style={styles.deckText}> Vanila JS </Text>
     </View>
     <View style={[styles.deck, { backgroundColor: '#dd7035' }]}>
       <Text style={styles.deckText}> Redux </Text>
@@ -35,7 +40,13 @@ const DeckList = () => (
     <View style={[styles.deck, { backgroundColor: '#bd937d' }]}>
       <Text style={styles.deckText}> Java </Text>
     </View>
-  </View>
+    <View style={[styles.deck, { backgroundColor: '#548999' }]}>
+      <Text style={styles.deckText}> Vanila JS </Text>
+    </View>
+    <View style={[styles.deck, { backgroundColor: '#dd7035' }]}>
+      <Text style={styles.deckText}> Redux </Text>
+    </View>
+  </ScrollView>
 );
 
 export default DeckList;
