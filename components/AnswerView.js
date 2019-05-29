@@ -33,7 +33,7 @@ const styles = {
 
 const AnswerView = () => (
   <View style={styles.container}>
-    <View style={styles.card}>
+    <View style={[styles.card, { padding: 30 }]}>
       <Text style={{ fontSize: 20, textAlign: 'justify' }}>
         React is a view library. It was created by Dan Abramov in 2015.
       </Text>

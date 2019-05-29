@@ -4,15 +4,11 @@ import AddDeck from './components/AddDeck';
 import DeckList from './components/DeckList';
 import DeckView from './components/DeckView';
 import AddQuestion from './components/AddQuestion';
-import QuizView from './components/QuizView';
-import AnswerView from './components/AnswerView';
+import Quiz from './components/Quiz';
 
 const Tabs = createBottomTabNavigator({
-  AnswerView: {
-    screen: AnswerView,
-  },
-  QuizView: {
-    screen: QuizView,
+  Quiz: {
+    screen: Quiz,
   },
   AddQuestion: {
     screen: AddQuestion,
