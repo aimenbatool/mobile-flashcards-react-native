@@ -5,6 +5,8 @@ import {
   TextInput,
   TouchableOpacity,
 } from 'react-native';
+import { connect } from 'react-redux';
+import { addDeck } from '../actions/deck';
 
 const styles = {
   container: {
@@ -36,8 +38,17 @@ const styles = {
 
 class AddDeck extends Component {
   state = {
-    input: 'PHP',
+    input: '',
   }
+
+  handleSubmit = () => {
+    const { input } = this.state;
+    // eslint-disable-next-line react/prop-types
+    const { dispatch } = this.props;
+    // eslint-disable-next-line no-console
+    console.log(dispatch);
+    dispatch(addDeck(input));
+  };
 
   render() {
     const { input } = this.state;
@@ -54,7 +65,7 @@ class AddDeck extends Component {
           />
         </View>
         <View>
-          <TouchableOpacity style={styles.addDeck}>
+          <TouchableOpacity style={styles.addDeck} onPress={this.handleSubmit}>
             <Text style={{ color: 'white', fontSize: 20 }}> Add Deck </Text>
           </TouchableOpacity>
         </View>
@@ -63,4 +74,4 @@ class AddDeck extends Component {
   }
 }
 
-export default AddDeck;
+export default connect()(AddDeck);

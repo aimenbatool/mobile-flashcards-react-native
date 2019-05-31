@@ -21,15 +21,23 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     marginTop: 50,
   },
+  cardNumber: {
+    color: 'white',
+    fontSize: 15,
+    textAlign: 'center',
+    marginTop: 10,
+  },
 });
 
 const DeckList = () => (
   <ScrollView>
     <View style={[styles.deck, { backgroundColor: '#548999' }]}>
       <Text style={styles.deckText}> Vanila JS </Text>
+      <Text style={styles.cardNumber}> 3 Cards </Text>
     </View>
     <View style={[styles.deck, { backgroundColor: '#dd7035' }]}>
       <Text style={styles.deckText}> Redux </Text>
+      <Text style={styles.cardNumber}> 0 Cards </Text>
     </View>
     <View style={[styles.deck, { backgroundColor: '#548999' }]}>
       <Text style={styles.deckText}> Vanila JS </Text>
