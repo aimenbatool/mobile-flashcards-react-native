@@ -5,6 +5,7 @@ import {
   TextInput,
   TouchableOpacity,
 } from 'react-native';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { addDeck } from '../actions/deck';
 
@@ -41,13 +42,15 @@ class AddDeck extends Component {
     input: '',
   }
 
+  static propTypes = {
+    dispatch: PropTypes.func.isRequired,
+  };
+
   handleSubmit = () => {
     const { input } = this.state;
-    // eslint-disable-next-line react/prop-types
     const { dispatch } = this.props;
-    // eslint-disable-next-line no-console
-    console.log(dispatch);
     dispatch(addDeck(input));
+    this.setState({ input: '' });
   };
 
   render() {
@@ -65,7 +68,12 @@ class AddDeck extends Component {
           />
         </View>
         <View>
-          <TouchableOpacity style={styles.addDeck} onPress={this.handleSubmit}>
+          <TouchableOpacity
+            activeOpacity={input === '' ? 1 : 0.5}
+            style={styles.addDeck}
+            onPress={this.handleSubmit}
+            disabled={input === ''}
+          >
             <Text style={{ color: 'white', fontSize: 20 }}> Add Deck </Text>
           </TouchableOpacity>
         </View>

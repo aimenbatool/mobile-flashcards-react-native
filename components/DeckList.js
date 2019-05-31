@@ -1,10 +1,13 @@
-import React from 'react';
+import React, { Component } from 'react';
+import { connect } from 'react-redux';
 import {
   View,
   Text,
   StyleSheet,
   ScrollView,
 } from 'react-native';
+import PropTypes from 'prop-types';
+import { receiveDeck } from '../actions/deck';
 
 const styles = StyleSheet.create({
   deck: {
@@ -29,32 +32,52 @@ const styles = StyleSheet.create({
   },
 });
 
-const DeckList = () => (
-  <ScrollView>
-    <View style={[styles.deck, { backgroundColor: '#548999' }]}>
-      <Text style={styles.deckText}> Vanila JS </Text>
-      <Text style={styles.cardNumber}> 3 Cards </Text>
-    </View>
-    <View style={[styles.deck, { backgroundColor: '#dd7035' }]}>
-      <Text style={styles.deckText}> Redux </Text>
-      <Text style={styles.cardNumber}> 0 Cards </Text>
-    </View>
-    <View style={[styles.deck, { backgroundColor: '#548999' }]}>
-      <Text style={styles.deckText}> Vanila JS </Text>
-    </View>
-    <View style={[styles.deck, { backgroundColor: '#f1d3a1' }]}>
-      <Text style={styles.deckText}> PHP </Text>
-    </View>
-    <View style={[styles.deck, { backgroundColor: '#bd937d' }]}>
-      <Text style={styles.deckText}> Java </Text>
-    </View>
-    <View style={[styles.deck, { backgroundColor: '#548999' }]}>
-      <Text style={styles.deckText}> Vanila JS </Text>
-    </View>
-    <View style={[styles.deck, { backgroundColor: '#dd7035' }]}>
-      <Text style={styles.deckText}> Redux </Text>
-    </View>
-  </ScrollView>
-);
+class DeckList extends Component {
+  // colors = ['green', 'yellow', 'red', 'blue', 'orange', 'pink', 'cyan'];
+  colors = ['#8e44ad', '#c0392b', '#f39c12', '#2c3e50', '#16a085', '#B53471', '#006266'];
 
-export default DeckList;
+  static propTypes = {
+    deck: PropTypes.objectOf(PropTypes.object).isRequired,
+    dispatch: PropTypes.func.isRequired,
+  }
+
+  componentWillMount() {
+    const { deck, dispatch } = this.props;
+    dispatch(receiveDeck(deck));
+  }
+
+  render() {
+    const { deck } = this.props;
+
+    return (
+      <ScrollView>
+        {
+        Object.values(deck).map((d, index) => (
+          <View
+            key={d.title}
+            style={[styles.deck, { backgroundColor: this.colors[index % this.colors.length] }]}
+          >
+            <Text style={styles.deckText}>
+              {d.title}
+            </Text>
+            <Text style={styles.cardNumber}>
+              {d.questions.length}
+            </Text>
+          </View>
+        ))
+      }
+      </ScrollView>
+    );
+  }
+}
+
+// DeckList.defaultProps = {
+//   deck: PropTypes.objectOf(PropTypes.string).isRequired,
+// };
+
+const mapStateToProps = (state) => {
+  const { deck } = state;
+  return { deck };
+};
+
+export default connect(mapStateToProps)(DeckList);
