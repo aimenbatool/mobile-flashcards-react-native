@@ -1,12 +1,38 @@
 import React from 'react';
-import { createBottomTabNavigator, createAppContainer } from 'react-navigation';
+import {
+  createBottomTabNavigator,
+  createMaterialTopTabNavigator,
+  createStackNavigator,
+  createAppContainer,
+} from 'react-navigation';
+import { Platform } from 'react-native';
 import { createStore } from 'redux';
 import { composeWithDevTools } from 'redux-devtools-extension';
 import { Provider } from 'react-redux';
-import AddDeck from './components/AddDeck';
-import DeckList from './components/DeckList';
+import { Ionicons } from '@expo/vector-icons';
 import reducer from './reducers';
 import middleware from './middleware';
+import AddDeck from './components/AddDeck';
+import DeckList from './components/DeckList';
+import DeckView from './components/DeckView';
+
+const Tabs = {
+  AddDeck: {
+    screen: AddDeck,
+    navigationOptions: {
+      tabBarLabel: 'Add Deck',
+      tabBarIcon: () => <Ionicons name="ios-add" size={32} color="black" />
+      ,
+    },
+  },
+  DeckList: {
+    screen: DeckList,
+    navigationOptions: {
+      tabBarLabel: 'Deck List',
+      tabBarIcon: () => <Ionicons name="ios-list" size={32} color="black" />,
+    },
+  },
+};
 
 const tabOptions = {
   navigationOptions: {
@@ -29,25 +55,39 @@ const tabOptions = {
   },
 };
 
-const Tabs = createBottomTabNavigator({
+const tabNavigationPlatform = Platform.OS === 'ios'
+  ? createBottomTabNavigator(Tabs, tabOptions)
+  : createMaterialTopTabNavigator(Tabs, tabOptions);
+const TabNavigator = createAppContainer(tabNavigationPlatform);
+
+const Stack = createStackNavigator({
+  Home: {
+    screen: TabNavigator,
+  },
   AddDeck: {
     screen: AddDeck,
   },
   DeckList: {
     screen: DeckList,
+    navigationOptions: () => ({
+      title: 'Deck List',
+    }),
   },
-}, tabOptions);
+  DeckView: {
+    screen: DeckView,
+    navigationOptions: () => ({
+      title: 'Deck',
+    }),
+  },
+});
 
-const TabNavigator = createAppContainer(Tabs);
+const StackNavigator = createAppContainer(Stack);
 
 const store = createStore(reducer, composeWithDevTools(middleware));
 
-// eslint-disable-next-line no-debugger
-// debugger;
-
 const App = () => (
   <Provider store={store}>
-    <TabNavigator />
+    <StackNavigator />
   </Provider>
 );
 

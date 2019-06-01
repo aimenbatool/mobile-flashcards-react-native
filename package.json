@@ -8,6 +8,7 @@
     "debug": "open 'rndebugger://set-debugger-loc?port=1900'"
   },
   "dependencies": {
+    "@expo/vector-icons": "^10.0.1",
     "babel-eslint": "^10.0.1",
     "expo": "^32.0.0",
     "prop-types": "^15.7.2",

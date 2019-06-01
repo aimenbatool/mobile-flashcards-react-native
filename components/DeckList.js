@@ -1,17 +1,16 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import {
-  View,
   Text,
   StyleSheet,
   ScrollView,
+  TouchableOpacity,
 } from 'react-native';
 import PropTypes from 'prop-types';
 import { receiveDeck } from '../actions/deck';
 
 const styles = StyleSheet.create({
   deck: {
-    // width: 200,
     height: 150,
     alignItems: 'stretch',
     backgroundColor: 'red',
@@ -30,16 +29,21 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     marginTop: 10,
   },
+  error: {
+    fontSize: 30,
+    textAlign: 'center',
+  },
 });
 
 class DeckList extends Component {
-  // colors = ['green', 'yellow', 'red', 'blue', 'orange', 'pink', 'cyan'];
-  colors = ['#8e44ad', '#c0392b', '#f39c12', '#2c3e50', '#16a085', '#B53471', '#006266'];
-
   static propTypes = {
     deck: PropTypes.objectOf(PropTypes.object).isRequired,
     dispatch: PropTypes.func.isRequired,
+    // eslint-disable-next-line react/forbid-prop-types
+    navigation: PropTypes.any.isRequired,
   }
+
+  colors = ['#8e44ad', '#c0392b', '#f39c12', '#2c3e50', '#16a085', '#B53471', '#006266'];
 
   componentWillMount() {
     const { deck, dispatch } = this.props;
@@ -47,33 +51,32 @@ class DeckList extends Component {
   }
 
   render() {
-    const { deck } = this.props;
+    const { deck, navigation } = this.props;
 
     return (
       <ScrollView>
         {
-        Object.values(deck).map((d, index) => (
-          <View
-            key={d.title}
-            style={[styles.deck, { backgroundColor: this.colors[index % this.colors.length] }]}
-          >
-            <Text style={styles.deckText}>
-              {d.title}
-            </Text>
-            <Text style={styles.cardNumber}>
-              {d.questions.length}
-            </Text>
-          </View>
-        ))
+        Object.keys(deck).length > 0
+          ? Object.values(deck).map((d, index) => (
+            <TouchableOpacity
+              key={d.title}
+              style={[styles.deck, { backgroundColor: this.colors[index % this.colors.length] }]}
+              onPress={() => { navigation.navigate('DeckView'); }}
+            >
+              <Text style={styles.deckText}>
+                {d.title}
+              </Text>
+              <Text style={styles.cardNumber}>
+                {d.questions.length}
+              </Text>
+            </TouchableOpacity>
+          ))
+          : <Text style={styles.error}> No deck available. </Text>
       }
       </ScrollView>
     );
   }
 }
-
-// DeckList.defaultProps = {
-//   deck: PropTypes.objectOf(PropTypes.string).isRequired,
-// };
 
 const mapStateToProps = (state) => {
   const { deck } = state;
