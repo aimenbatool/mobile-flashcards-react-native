@@ -15,6 +15,7 @@ import middleware from './middleware';
 import AddDeck from './components/AddDeck';
 import DeckList from './components/DeckList';
 import DeckView from './components/DeckView';
+import AddQuestion from './components/AddQuestion';
 
 const Tabs = {
   AddDeck: {
@@ -77,6 +78,12 @@ const Stack = createStackNavigator({
     screen: DeckView,
     navigationOptions: () => ({
       title: 'Deck',
+    }),
+  },
+  AddQuestion: {
+    screen: AddQuestion,
+    navigationOptions: () => ({
+      title: 'Add Question',
     }),
   },
 });

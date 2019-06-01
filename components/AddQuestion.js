@@ -6,6 +6,7 @@ import {
   TouchableOpacity,
   TextInput,
 } from 'react-native';
+import PropTypes from 'prop-types';
 
 const styles = StyleSheet.create({
   container: {
@@ -41,9 +42,16 @@ class AddQuestion extends Component {
     answer: '',
   }
 
+  static propTypes = {
+    navigation: PropTypes.shape({
+      navigate: PropTypes.func.isRequired,
+    }).isRequired,
+  };
+
   render() {
     const { question, answer } = this.state;
-
+    const { navigation } = this.props;
+    const { key } = navigation.state.params;
     return (
       <View style={styles.container}>
         <View style={{ alignItems: 'center' }}>
@@ -62,6 +70,9 @@ class AddQuestion extends Component {
             onChangeText={text => this.setState({ answer: text })}
             value={answer}
           />
+          <Text>
+            { key }
+          </Text>
           <TouchableOpacity style={styles.submit}>
             <Text style={{ fontSize: 20, color: 'white' }}> SUBMIT </Text>
           </TouchableOpacity>

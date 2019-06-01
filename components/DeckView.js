@@ -5,6 +5,7 @@ import {
   StyleSheet,
   TouchableOpacity,
 } from 'react-native';
+import PropTypes from 'prop-types';
 
 const styles = StyleSheet.create({
   deckView: {
@@ -66,18 +67,39 @@ class DeckView extends Component {
     title: 'DeckView',
   };
 
+  static propTypes = {
+    navigation: PropTypes.shape({
+      navigate: PropTypes.func.isRequired,
+    }).isRequired,
+  }
+
   render() {
+    const { navigation } = this.props;
+    const { deck } = navigation.state.params;
+
     return (
       <View style={styles.deckView}>
         <View style={styles.deckTitle}>
-          <Text style={{ fontSize: 20 }}> ReactJS </Text>
+          <Text style={{ fontSize: 20 }}>
+            { deck.title }
+          </Text>
         </View>
         <View style={styles.cardCount}>
-          <Text> 3 Cards </Text>
+          <Text>
+            { `${deck.questions.length} cards` }
+          </Text>
         </View>
         <View style={styles.buttonsContainer}>
           <View>
-            <TouchableOpacity style={styles.btn}>
+            <TouchableOpacity
+              style={styles.btn}
+              onPress={() => {
+                navigation.navigate(
+                  'AddQuestion',
+                  { key: deck.title },
+                );
+              }}
+            >
               <Text style={{ fontSize: 18 }}>  Add Card </Text>
             </TouchableOpacity>
           </View>

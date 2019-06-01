@@ -39,8 +39,9 @@ class DeckList extends Component {
   static propTypes = {
     deck: PropTypes.objectOf(PropTypes.object).isRequired,
     dispatch: PropTypes.func.isRequired,
-    // eslint-disable-next-line react/forbid-prop-types
-    navigation: PropTypes.any.isRequired,
+    navigation: PropTypes.shape({
+      navigate: PropTypes.func.isRequired,
+    }).isRequired,
   }
 
   colors = ['#8e44ad', '#c0392b', '#f39c12', '#2c3e50', '#16a085', '#B53471', '#006266'];
@@ -61,7 +62,12 @@ class DeckList extends Component {
             <TouchableOpacity
               key={d.title}
               style={[styles.deck, { backgroundColor: this.colors[index % this.colors.length] }]}
-              onPress={() => { navigation.navigate('DeckView'); }}
+              onPress={() => {
+                navigation.navigate(
+                  'DeckView',
+                  { deck: d },
+                );
+              }}
             >
               <Text style={styles.deckText}>
                 {d.title}
