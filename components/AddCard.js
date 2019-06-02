@@ -36,7 +36,7 @@ const styles = StyleSheet.create({
   },
 });
 
-class AddQuestion extends Component {
+class AddCard extends Component {
   state = {
     question: '',
     answer: '',
@@ -82,4 +82,4 @@ class AddQuestion extends Component {
   }
 }
 
-export default AddQuestion;
+export default AddCard;
