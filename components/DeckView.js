@@ -96,7 +96,7 @@ class DeckView extends Component {
               onPress={() => {
                 navigation.navigate(
                   'AddCard',
-                  { key: deck.title },
+                  { deck },
                 );
               }}
             >

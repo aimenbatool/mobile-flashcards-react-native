@@ -6,8 +6,8 @@ import {
   createAppContainer,
 } from 'react-navigation';
 import { Platform } from 'react-native';
-import { createStore } from 'redux';
-import { composeWithDevTools } from 'redux-devtools-extension';
+import { createStore, compose } from 'redux';
+// import { composeWithDevTools } from 'redux-devtools-extension';
 import { Provider } from 'react-redux';
 import { Ionicons } from '@expo/vector-icons';
 import reducer from './reducers';
@@ -90,7 +90,14 @@ const Stack = createStackNavigator({
 
 const StackNavigator = createAppContainer(Stack);
 
-const store = createStore(reducer, composeWithDevTools(middleware));
+// eslint-disable-next-line no-debugger
+// debugger;
+
+// eslint-disable-next-line no-underscore-dangle
+const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
+
+
+const store = createStore(reducer, composeEnhancers(middleware));
 
 const App = () => (
   <Provider store={store}>

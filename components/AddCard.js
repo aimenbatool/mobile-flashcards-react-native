@@ -7,6 +7,9 @@ import {
   TextInput,
 } from 'react-native';
 import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
+import { addCard } from '../actions/cards';
+import { createCard } from '../utils/api';
 
 const styles = StyleSheet.create({
   container: {
@@ -46,12 +49,21 @@ class AddCard extends Component {
     navigation: PropTypes.shape({
       navigate: PropTypes.func.isRequired,
     }).isRequired,
+    dispatch: PropTypes.func.isRequired,
   };
+
+  handleSubmit = () => {
+    const { question, answer } = this.state;
+    const { dispatch, navigation } = this.props;
+    const { deck } = navigation.state.params;
+    createCard(question, answer, deck.title);
+    dispatch(addCard(question, answer, deck.title));
+  }
 
   render() {
     const { question, answer } = this.state;
     const { navigation } = this.props;
-    const { key } = navigation.state.params;
+    const { deck } = navigation.state.params;
     return (
       <View style={styles.container}>
         <View style={{ alignItems: 'center' }}>
@@ -71,9 +83,9 @@ class AddCard extends Component {
             value={answer}
           />
           <Text>
-            { key }
+            { deck.title }
           </Text>
-          <TouchableOpacity style={styles.submit}>
+          <TouchableOpacity style={styles.submit} onPress={this.handleSubmit}>
             <Text style={{ fontSize: 20, color: 'white' }}> SUBMIT </Text>
           </TouchableOpacity>
         </View>
@@ -82,4 +94,4 @@ class AddCard extends Component {
   }
 }
 
-export default AddCard;
+export default connect()(AddCard);

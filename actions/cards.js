@@ -1,6 +1,8 @@
 export const ADD_CARD = 'ADD_CARD';
 
-export const addDeck = card => ({
+export const addCard = (question, answer, deck) => ({
   type: ADD_CARD,
-  card,
+  question,
+  answer,
+  deck,
 });
