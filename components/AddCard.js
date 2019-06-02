@@ -14,7 +14,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
   },
-  question: {
+  card: {
     borderWidth: 1,
     borderColor: 'black',
     padding: 10,
@@ -59,13 +59,13 @@ class AddCard extends Component {
             <Text style={{ fontSize: 40, marginBottom: 20 }}> Add Card </Text>
           </View>
           <TextInput
-            style={styles.question}
+            style={styles.card}
             placeholder="Enter your question..."
             onChangeText={text => this.setState({ question: text })}
             value={question}
           />
           <TextInput
-            style={styles.question}
+            style={styles.card}
             placeholder="Enter your question..."
             onChangeText={text => this.setState({ answer: text })}
             value={answer}

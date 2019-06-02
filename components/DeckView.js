@@ -86,7 +86,7 @@ class DeckView extends Component {
         </View>
         <View style={styles.cardCount}>
           <Text>
-            { `${deck.questions.length} cards` }
+            { `${deck.cards.length} cards` }
           </Text>
         </View>
         <View style={styles.buttonsContainer}>

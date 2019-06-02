@@ -7,7 +7,7 @@ const decks = (state = {}, action) => {
         ...state,
         [action.deck]: {
           title: action.deck,
-          questions: [],
+          cards: [],
         },
       };
     case RECEIVE_DECKS:

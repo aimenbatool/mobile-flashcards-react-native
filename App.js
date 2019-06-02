@@ -83,7 +83,7 @@ const Stack = createStackNavigator({
   AddCard: {
     screen: AddCard,
     navigationOptions: () => ({
-      title: 'Add Question',
+      title: 'Add Card',
     }),
   },
 });

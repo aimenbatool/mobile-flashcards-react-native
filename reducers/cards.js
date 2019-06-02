@@ -1,8 +1,8 @@
-import ADD_QUESTION from '../actions/question';
+import ADD_CARD from '../actions/cards';
 
 const deck = (state = {}, action) => {
   switch (action.type) {
-    case ADD_QUESTION:
+    case ADD_CARD:
       return {
         ...state,
         [action.deck]: {

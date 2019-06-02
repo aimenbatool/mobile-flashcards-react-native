@@ -7,7 +7,7 @@ export const createDeck = deck => AsyncStorage.mergeItem(
   JSON.stringify({
     [deck]: {
       title: deck,
-      questions: [],
+      cards: [],
     },
   }),
 );
