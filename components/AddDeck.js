@@ -8,6 +8,7 @@ import {
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { addDeck } from '../actions/deck';
+import { createDeck } from '../utils/api';
 
 const styles = {
   container: {
@@ -49,6 +50,7 @@ class AddDeck extends Component {
   handleSubmit = () => {
     const { input } = this.state;
     const { dispatch } = this.props;
+    createDeck(input);
     dispatch(addDeck(input));
     this.setState({ input: '' });
   };

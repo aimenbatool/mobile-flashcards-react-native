@@ -1,13 +1,15 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import {
+  View,
   Text,
   StyleSheet,
   ScrollView,
   TouchableOpacity,
 } from 'react-native';
 import PropTypes from 'prop-types';
-import { receiveDeck } from '../actions/deck';
+import { receiveDecks } from '../actions/deck';
+import { getDecks } from '../utils/api';
 
 const styles = StyleSheet.create({
   deck: {
@@ -36,29 +38,45 @@ const styles = StyleSheet.create({
 });
 
 class DeckList extends Component {
+  state = {
+    ready: false,
+  }
+
   static propTypes = {
-    deck: PropTypes.objectOf(PropTypes.object).isRequired,
-    dispatch: PropTypes.func.isRequired,
+    decks: PropTypes.objectOf(PropTypes.object).isRequired,
     navigation: PropTypes.shape({
       navigate: PropTypes.func.isRequired,
     }).isRequired,
+    receiveDecks: PropTypes.func.isRequired,
   }
 
   colors = ['#8e44ad', '#c0392b', '#f39c12', '#2c3e50', '#16a085', '#B53471', '#006266'];
 
   componentWillMount() {
-    const { deck, dispatch } = this.props;
-    dispatch(receiveDeck(deck));
+    // eslint-disable-next-line no-shadow
+    const { receiveDecks } = this.props;
+    getDecks()
+      .then(decks => receiveDecks(decks))
+      .then(() => {
+        this.setState({ ready: true });
+      });
   }
 
   render() {
-    const { deck, navigation } = this.props;
+    const { decks, navigation } = this.props;
+    const { ready } = this.state;
+    if (!ready) {
+      return (
+        <View>
+          <Text> Loading... </Text>
+        </View>
+      );
+    }
 
     return (
       <ScrollView>
-        {
-        Object.keys(deck).length > 0
-          ? Object.values(deck).map((d, index) => (
+        { ready && Object.keys(decks).length > 0
+          ? Object.values(decks).map((d, index) => (
             <TouchableOpacity
               key={d.title}
               style={[styles.deck, { backgroundColor: this.colors[index % this.colors.length] }]}
@@ -73,7 +91,7 @@ class DeckList extends Component {
                 {d.title}
               </Text>
               <Text style={styles.cardNumber}>
-                {d.questions.length}
+                {d.title}
               </Text>
             </TouchableOpacity>
           ))
@@ -84,9 +102,13 @@ class DeckList extends Component {
   }
 }
 
-const mapStateToProps = (state) => {
-  const { deck } = state;
-  return { deck };
-};
+const mapStateToProps = state => ({ decks: state.decks });
 
-export default connect(mapStateToProps)(DeckList);
+const mapDispatchToProps = dispatch => ({
+  receiveDecks: decks => dispatch(receiveDecks(decks)),
+});
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(DeckList);

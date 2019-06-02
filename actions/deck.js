@@ -6,7 +6,7 @@ export const addDeck = deck => ({
   deck,
 });
 
-export const receiveDeck = decks => ({
+export const receiveDecks = decks => ({
   type: RECEIVE_DECKS,
   decks,
 });

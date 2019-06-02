@@ -1,6 +1,6 @@
 import { ADD_DECK, RECEIVE_DECKS } from '../actions/deck';
 
-const deck = (state = {}, action) => {
+const decks = (state = {}, action) => {
   switch (action.type) {
     case ADD_DECK:
       return {
@@ -20,4 +20,4 @@ const deck = (state = {}, action) => {
   }
 };
 
-export default deck;
+export default decks;
