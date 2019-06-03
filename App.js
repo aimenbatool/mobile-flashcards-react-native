@@ -19,19 +19,19 @@ import AddCard from './components/AddCard';
 import Quiz from './components/Quiz';
 
 const Tabs = {
+  DeckList: {
+    screen: DeckList,
+    navigationOptions: {
+      tabBarLabel: 'Deck List',
+      tabBarIcon: () => <Ionicons name="ios-list" size={32} color="black" />,
+    },
+  },
   AddDeck: {
     screen: AddDeck,
     navigationOptions: {
       tabBarLabel: 'Add Deck',
       tabBarIcon: () => <Ionicons name="ios-add" size={32} color="black" />
       ,
-    },
-  },
-  DeckList: {
-    screen: DeckList,
-    navigationOptions: {
-      tabBarLabel: 'Deck List',
-      tabBarIcon: () => <Ionicons name="ios-list" size={32} color="black" />,
     },
   },
 };
