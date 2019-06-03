@@ -91,7 +91,7 @@ class DeckList extends Component {
                 {d.title}
               </Text>
               <Text style={styles.cardNumber}>
-                {d.title}
+                {`${d.cards.length} cards`}
               </Text>
             </TouchableOpacity>
           ))

@@ -67,8 +67,6 @@ class AddCard extends Component {
 
   render() {
     const { question, answer } = this.state;
-    const { navigation } = this.props;
-    const { deck } = navigation.state.params;
     return (
       <View style={styles.container}>
         <View style={{ alignItems: 'center' }}>
@@ -87,9 +85,6 @@ class AddCard extends Component {
             onChangeText={text => this.setState({ answer: text })}
             value={answer}
           />
-          <Text>
-            { deck.title }
-          </Text>
           <TouchableOpacity style={styles.submit} onPress={this.handleSubmit}>
             <Text style={{ fontSize: 20, color: 'white' }}> SUBMIT </Text>
           </TouchableOpacity>

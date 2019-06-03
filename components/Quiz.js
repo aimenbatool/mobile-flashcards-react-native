@@ -7,6 +7,7 @@ import {
 } from 'react-native';
 import PropTypes from 'prop-types';
 import { NavigationActions } from 'react-navigation';
+import { clearLocalNotification, setLocalNotification } from '../utils/notifications';
 
 const styles = {
   container: {
@@ -122,6 +123,11 @@ class Quiz extends Component {
     });
   }
 
+  resetNotification = () => {
+    clearLocalNotification()
+      .then(setLocalNotification);
+  }
+
   shuffleQuestions() {
     const { navigation } = this.props;
     const { cards } = navigation.state.params;
@@ -171,6 +177,7 @@ class Quiz extends Component {
       currentQuestion: 0,
       correctAnswer: 0,
     }));
+    this.resetNotification();
   }
 
   goBack() {
@@ -178,6 +185,7 @@ class Quiz extends Component {
     const backAction = NavigationActions.back();
     this.resetQuiz();
     navigation.dispatch(backAction);
+    this.resetNotification();
   }
 
   render() {
