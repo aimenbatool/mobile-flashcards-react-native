@@ -56,13 +56,13 @@ class AddCard extends Component {
     const { question, answer } = this.state;
     const { dispatch, navigation } = this.props;
     const { deck } = navigation.state.params;
-    createCard(question, answer, deck.title);
-    dispatch(addCard(question, answer, deck.title));
+    createCard(question, answer, deck.title)
+      .then(dispatch(addCard(question, answer, deck.title)))
+      .then(navigation.navigate('DeckView'));
     this.setState({
       question: '',
       answer: '',
     });
-    navigation.navigate('DeckView');
   }
 
   render() {

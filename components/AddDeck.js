@@ -50,8 +50,8 @@ class AddDeck extends Component {
   handleSubmit = () => {
     const { input } = this.state;
     const { dispatch } = this.props;
-    createDeck(input);
-    dispatch(addDeck(input));
+    createDeck(input)
+      .then(dispatch(addDeck(input)));
     this.setState({ input: '' });
   };
 
