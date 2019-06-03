@@ -206,83 +206,94 @@ class Quiz extends Component {
     return (
       <View style={styles.container}>
         {
-          currentQuestion < questions.length
+          // eslint-disable-next-line no-nested-ternary
+          questions.length > 0
             ? (
-              <View>
-                <View>
-                  <Animated.View style={[styles.flipCard, frontAnimatedStyle]}>
-                    <View style={styles.card}>
-                      <Text style={{ fontSize: 30 }}>
-                        {questions[currentQuestion].question}
+              currentQuestion < questions.length
+                ? (
+                  <View>
+                    <View>
+                      <Animated.View style={[styles.flipCard, frontAnimatedStyle]}>
+                        <View style={styles.card}>
+                          <Text style={{ fontSize: 30 }}>
+                            {questions[currentQuestion].question}
+                          </Text>
+                        </View>
+                        <View style={styles.answer}>
+                          <TouchableOpacity onPress={() => this.flipCard()} style={{ padding: 10 }}>
+                            <Text
+                              style={{ textAlign: 'center', fontSize: 20, color: 'white' }}
+                            >
+                              Answer
+                            </Text>
+                          </TouchableOpacity>
+                        </View>
+                      </Animated.View>
+
+                      {/* Back */}
+                      <Animated.View
+                        style={[backAnimatedStyle, styles.flipCard, styles.flipCardBack]}
+                      >
+                        <View style={styles.card}>
+                          <Text style={styles.answerText}>
+                            {questions[currentQuestion].answer}
+                          </Text>
+                          <View style={{ flexDirection: 'row' }}>
+                            <TouchableOpacity
+                              style={[styles.answerBtn, { borderBottomLeftRadius: 10, backgroundColor: '#ff6961' }]}
+                              onPress={() => this.inCorrectAnswer()}
+                            >
+                              <Text style={{ fontSize: 20, textAlign: 'center', color: 'white' }}> Incorrect </Text>
+                            </TouchableOpacity>
+                            <TouchableOpacity
+                              style={[styles.answerBtn, { borderBottomRightRadius: 10, backgroundColor: '#29AB87' }]}
+                              onPress={() => this.correctAnswer()}
+                            >
+                              <Text style={{ fontSize: 20, textAlign: 'center', color: 'white' }}> Correct </Text>
+                            </TouchableOpacity>
+                          </View>
+                        </View>
+                      </Animated.View>
+                    </View>
+                    <View style={styles.counter}>
+                      <Text>
+                        {`${currentQuestion + 1} out of  ${questions.length}`}
                       </Text>
                     </View>
-                    <View style={styles.answer}>
-                      <TouchableOpacity onPress={() => this.flipCard()} style={{ padding: 10 }}>
-                        <Text
-                          style={{ textAlign: 'center', fontSize: 20, color: 'white' }}
-                        >
-                          Answer
+                  </View>
+                )
+                : (
+                  <View>
+                    <Text style={styles.passingScoreText}>
+                        Passing Score:
+                      {`${correctAnswer}/${questions.length}`}
+                    </Text>
+                    <View style={styles.scoreBoardBtn}>
+                      <TouchableOpacity
+                        onPress={() => this.goBack()}
+                        style={[styles.scoreBoardActions,
+                          { borderBottomLeftRadius: 4, borderTopLeftRadius: 4 }]}
+                      >
+                        <Text>
+                            Back to deck
+                        </Text>
+                      </TouchableOpacity>
+                      <TouchableOpacity
+                        onPress={() => this.resetQuiz()}
+                        style={[styles.scoreBoardActions,
+                          { borderTopRightRadius: 4, borderBottomRightRadius: 4 }]}
+                      >
+                        <Text>
+                            Reset Quiz
                         </Text>
                       </TouchableOpacity>
                     </View>
-                  </Animated.View>
-
-                  {/* Back */}
-                  <Animated.View style={[backAnimatedStyle, styles.flipCard, styles.flipCardBack]}>
-                    <View style={styles.card}>
-                      <Text style={styles.answerText}>
-                        {questions[currentQuestion].answer}
-                      </Text>
-                      <View style={{ flexDirection: 'row' }}>
-                        <TouchableOpacity
-                          style={[styles.answerBtn, { borderBottomLeftRadius: 10, backgroundColor: '#ff6961' }]}
-                          onPress={() => this.inCorrectAnswer()}
-                        >
-                          <Text style={{ fontSize: 20, textAlign: 'center', color: 'white' }}> Incorrect </Text>
-                        </TouchableOpacity>
-                        <TouchableOpacity
-                          style={[styles.answerBtn, { borderBottomRightRadius: 10, backgroundColor: '#29AB87' }]}
-                          onPress={() => this.correctAnswer()}
-                        >
-                          <Text style={{ fontSize: 20, textAlign: 'center', color: 'white' }}> Correct </Text>
-                        </TouchableOpacity>
-                      </View>
-                    </View>
-                  </Animated.View>
-                </View>
-                <View style={styles.counter}>
-                  <Text>
-                    {`${currentQuestion + 1} out of  ${questions.length}`}
-                  </Text>
-                </View>
-              </View>
+                  </View>
+                )
             )
             : (
               <View>
-                <Text style={styles.passingScoreText}>
-                    Passing Score:
-                  {`${correctAnswer}/${questions.length}`}
-                </Text>
-                <View style={styles.scoreBoardBtn}>
-                  <TouchableOpacity
-                    onPress={() => this.goBack()}
-                    style={[styles.scoreBoardActions,
-                      { borderBottomLeftRadius: 4, borderTopLeftRadius: 4 }]}
-                  >
-                    <Text>
-                        Back to deck
-                    </Text>
-                  </TouchableOpacity>
-                  <TouchableOpacity
-                    onPress={() => this.resetQuiz()}
-                    style={[styles.scoreBoardActions,
-                      { borderTopRightRadius: 4, borderBottomRightRadius: 4 }]}
-                  >
-                    <Text>
-                        Reset Quiz
-                    </Text>
-                  </TouchableOpacity>
-                </View>
+                <Text style={{ fontSize: 30 }}> No card available. </Text>
               </View>
             )
         }
