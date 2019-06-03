@@ -16,6 +16,7 @@ import AddDeck from './components/AddDeck';
 import DeckList from './components/DeckList';
 import DeckView from './components/DeckView';
 import AddCard from './components/AddCard';
+import Quiz from './components/Quiz';
 
 const Tabs = {
   AddDeck: {
@@ -84,6 +85,12 @@ const Stack = createStackNavigator({
     screen: AddCard,
     navigationOptions: () => ({
       title: 'Add Card',
+    }),
+  },
+  Quiz: {
+    screen: Quiz,
+    navigationOptions: () => ({
+      title: 'Quiz',
     }),
   },
 });

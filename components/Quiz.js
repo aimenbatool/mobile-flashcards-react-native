@@ -5,6 +5,8 @@ import {
   TouchableOpacity,
   Animated,
 } from 'react-native';
+import PropTypes from 'prop-types';
+import { NavigationActions } from 'react-navigation';
 
 const styles = {
   container: {
@@ -63,17 +65,53 @@ const styles = {
     padding: 10,
     width: 150,
     height: 50,
-    marginTop: 70,
+    marginTop: 85,
+  },
+  counter: {
+    marginTop: 100,
+    textAlign: 'center',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  passingScoreText: {
+    color: 'green',
+    fontSize: 40,
+  },
+  scoreBoardBtn: {
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginTop: 20,
+  },
+  scoreBoardActions: {
+    paddingVertical: 20,
+    paddingHorizontal: 40,
+    backgroundColor: '#F8F8F8',
+    borderWidth: 1,
+    borderColor: 'black',
   },
 };
 
 class Quiz extends Component {
+  state = {
+    questions: this.shuffleQuestions(),
+    currentQuestion: 0,
+    correctAnswer: 0,
+  };
+
+  static propTypes = {
+    navigation: PropTypes.shape({
+      navigate: PropTypes.func.isRequired,
+    }).isRequired,
+  }
+
   componentWillMount() {
     this.animatedValue = new Animated.Value(0);
     this.value = 0;
     this.animatedValue.addListener(({ value }) => {
       this.value = value;
     });
+
     this.frontInterpolate = this.animatedValue.interpolate({
       inputRange: [0, 180],
       outputRange: ['0deg', '180deg'],
@@ -82,6 +120,18 @@ class Quiz extends Component {
       inputRange: [0, 180],
       outputRange: ['180deg', '360deg'],
     });
+  }
+
+  shuffleQuestions() {
+    const { navigation } = this.props;
+    const { cards } = navigation.state.params;
+
+    for (let i = cards.length - 1; i > 0; i -= 1) {
+      const j = Math.floor(Math.random() * (i + 1));
+      // eslint-disable-next-line no-param-reassign
+      [cards[i], cards[j]] = [cards[j], cards[i]];
+    }
+    return cards;
   }
 
   flipCard() {
@@ -100,6 +150,36 @@ class Quiz extends Component {
     }
   }
 
+  correctAnswer() {
+    this.setState(prevState => ({
+      currentQuestion: prevState.currentQuestion + 1,
+      correctAnswer: prevState.correctAnswer + 1,
+    }));
+    this.flipCard();
+  }
+
+  inCorrectAnswer() {
+    this.setState(prevState => ({
+      currentQuestion: prevState.currentQuestion + 1,
+    }));
+    this.flipCard();
+  }
+
+  resetQuiz() {
+    this.setState(() => ({
+      questions: this.shuffleQuestions(),
+      currentQuestion: 0,
+      correctAnswer: 0,
+    }));
+  }
+
+  goBack() {
+    const { navigation } = this.props;
+    const backAction = NavigationActions.back();
+    this.resetQuiz();
+    navigation.dispatch(backAction);
+  }
+
   render() {
     const frontAnimatedStyle = {
       transform: [
@@ -113,44 +193,91 @@ class Quiz extends Component {
       ],
     };
 
+    const { questions, currentQuestion, correctAnswer } = this.state;
+
     return (
       <View style={styles.container}>
-        <View>
-          <Animated.View style={[styles.flipCard, frontAnimatedStyle]}>
-            <View style={styles.card}>
-              <Text style={{ fontSize: 30 }}> What is ReactJS? </Text>
-            </View>
-            <View style={styles.answer}>
-              <TouchableOpacity onPress={() => this.flipCard()} style={{ padding: 10 }}>
-                <Text
-                  style={{ textAlign: 'center', fontSize: 20, color: 'white' }}
-                >
-                  Answer
-                </Text>
-              </TouchableOpacity>
-            </View>
-          </Animated.View>
+        {
+          currentQuestion < questions.length
+            ? (
+              <View>
+                <View>
+                  <Animated.View style={[styles.flipCard, frontAnimatedStyle]}>
+                    <View style={styles.card}>
+                      <Text style={{ fontSize: 30 }}>
+                        {questions[currentQuestion].question}
+                      </Text>
+                    </View>
+                    <View style={styles.answer}>
+                      <TouchableOpacity onPress={() => this.flipCard()} style={{ padding: 10 }}>
+                        <Text
+                          style={{ textAlign: 'center', fontSize: 20, color: 'white' }}
+                        >
+                          Answer
+                        </Text>
+                      </TouchableOpacity>
+                    </View>
+                  </Animated.View>
 
-          {/* Back */}
-          <Animated.View style={[backAnimatedStyle, styles.flipCard, styles.flipCardBack]}>
-            <View style={styles.card}>
-              <Text style={styles.answerText}>
-                React is a view library. It was created by Dan Abramov in 2015.
-              </Text>
-              <View style={{ flexDirection: 'row' }}>
-                <TouchableOpacity style={[styles.answerBtn, { borderBottomLeftRadius: 10, backgroundColor: '#ff6961' }]}>
-                  <Text style={{ fontSize: 20, textAlign: 'center', color: 'white' }}> Incorrect </Text>
-                </TouchableOpacity>
-                <TouchableOpacity
-                  style={[styles.answerBtn, { borderBottomRightRadius: 10, backgroundColor: '#29AB87' }]}
-                  onPress={() => this.flipCard()}
-                >
-                  <Text style={{ fontSize: 20, textAlign: 'center', color: 'white' }}> Correct </Text>
-                </TouchableOpacity>
+                  {/* Back */}
+                  <Animated.View style={[backAnimatedStyle, styles.flipCard, styles.flipCardBack]}>
+                    <View style={styles.card}>
+                      <Text style={styles.answerText}>
+                        {questions[currentQuestion].answer}
+                      </Text>
+                      <View style={{ flexDirection: 'row' }}>
+                        <TouchableOpacity
+                          style={[styles.answerBtn, { borderBottomLeftRadius: 10, backgroundColor: '#ff6961' }]}
+                          onPress={() => this.inCorrectAnswer()}
+                        >
+                          <Text style={{ fontSize: 20, textAlign: 'center', color: 'white' }}> Incorrect </Text>
+                        </TouchableOpacity>
+                        <TouchableOpacity
+                          style={[styles.answerBtn, { borderBottomRightRadius: 10, backgroundColor: '#29AB87' }]}
+                          onPress={() => this.correctAnswer()}
+                        >
+                          <Text style={{ fontSize: 20, textAlign: 'center', color: 'white' }}> Correct </Text>
+                        </TouchableOpacity>
+                      </View>
+                    </View>
+                  </Animated.View>
+                </View>
+                <View style={styles.counter}>
+                  <Text>
+                    {`${currentQuestion + 1} out of  ${questions.length}`}
+                  </Text>
+                </View>
               </View>
-            </View>
-          </Animated.View>
-        </View>
+            )
+            : (
+              <View>
+                <Text style={styles.passingScoreText}>
+                    Passing Score:
+                  {`${correctAnswer}/${questions.length}`}
+                </Text>
+                <View style={styles.scoreBoardBtn}>
+                  <TouchableOpacity
+                    onPress={() => this.goBack()}
+                    style={[styles.scoreBoardActions,
+                      { borderBottomLeftRadius: 4, borderTopLeftRadius: 4 }]}
+                  >
+                    <Text>
+                        Back to deck
+                    </Text>
+                  </TouchableOpacity>
+                  <TouchableOpacity
+                    onPress={() => this.resetQuiz()}
+                    style={[styles.scoreBoardActions,
+                      { borderTopRightRadius: 4, borderBottomRightRadius: 4 }]}
+                  >
+                    <Text>
+                        Reset Quiz
+                    </Text>
+                  </TouchableOpacity>
+                </View>
+              </View>
+            )
+        }
       </View>
     );
   }

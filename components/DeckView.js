@@ -76,7 +76,7 @@ class DeckView extends Component {
   render() {
     const { navigation } = this.props;
     const { deck } = navigation.state.params;
-
+    const { cards } = deck;
     return (
       <View style={styles.deckView}>
         <View style={styles.deckTitle}>
@@ -86,7 +86,7 @@ class DeckView extends Component {
         </View>
         <View style={styles.cardCount}>
           <Text>
-            { `${deck.cards.length} cards` }
+            { `${cards.length} cards` }
           </Text>
         </View>
         <View style={styles.buttonsContainer}>
@@ -104,7 +104,15 @@ class DeckView extends Component {
             </TouchableOpacity>
           </View>
           <View>
-            <TouchableOpacity style={styles.btn}>
+            <TouchableOpacity
+              style={styles.btn}
+              onPress={() => {
+                navigation.navigate(
+                  'Quiz',
+                  { cards },
+                );
+              }}
+            >
               <Text style={{ fontSize: 18 }}> Start Quiz </Text>
             </TouchableOpacity>
           </View>
