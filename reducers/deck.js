@@ -1,4 +1,4 @@
-import { ADD_DECK, RECEIVE_DECKS } from '../actions/deck';
+import { ADD_DECK, RECEIVE_DECKS, DELETE_DECKS } from '../actions/deck';
 import { ADD_CARD } from '../actions/cards';
 
 const decks = (state = {}, action) => {
@@ -14,6 +14,10 @@ const decks = (state = {}, action) => {
     case RECEIVE_DECKS:
       return {
         ...state,
+        ...action.decks,
+      };
+    case DELETE_DECKS:
+      return {
         ...action.decks,
       };
     case ADD_CARD:

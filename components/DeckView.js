@@ -6,6 +6,9 @@ import {
   TouchableOpacity,
 } from 'react-native';
 import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
+import { removeDeck } from '../utils/api';
+import { deleteDeck } from '../actions/deck';
 
 const styles = StyleSheet.create({
   deckView: {
@@ -71,6 +74,21 @@ class DeckView extends Component {
     navigation: PropTypes.shape({
       navigate: PropTypes.func.isRequired,
     }).isRequired,
+    dispatch: PropTypes.func.isRequired,
+  }
+
+  handleRemoveDeck = () => {
+    const { dispatch, navigation } = this.props;
+    const { deck } = navigation.state.params;
+    removeDeck(deck.title)
+      .then((result) => {
+        dispatch(deleteDeck(result));
+        navigation.navigate('DeckList');
+      })
+      .catch((err) => {
+        // eslint-disable-next-line no-console
+        console.log(err);
+      });
   }
 
   render() {
@@ -118,7 +136,10 @@ class DeckView extends Component {
           </View>
         </View>
         <View>
-          <TouchableOpacity style={styles.deleteDeck}>
+          <TouchableOpacity
+            onPress={() => this.handleRemoveDeck()}
+            style={styles.deleteDeck}
+          >
             <Text style={{ fontSize: 20, color: 'white' }}> Delete Deck </Text>
           </TouchableOpacity>
         </View>
@@ -127,4 +148,4 @@ class DeckView extends Component {
   }
 }
 
-export default DeckView;
+export default connect()(DeckView);

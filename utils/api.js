@@ -17,6 +17,15 @@ export const getDecks = () => AsyncStorage.getItem(FLASHCARD_STORAGE_KEY).then((
   return data;
 });
 
+export const removeDeck = deck => AsyncStorage.getItem(FLASHCARD_STORAGE_KEY)
+  .then((results) => {
+    const data = JSON.parse(results);
+    data[deck] = undefined;
+    delete data[deck];
+    AsyncStorage.setItem(FLASHCARD_STORAGE_KEY, JSON.stringify(data));
+    return data;
+  });
+
 export const createCard = (question, answer, deck) => AsyncStorage.getItem(FLASHCARD_STORAGE_KEY)
   .then((results) => {
     const data = JSON.parse(results);
