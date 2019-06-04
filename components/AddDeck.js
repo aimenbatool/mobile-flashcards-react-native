@@ -45,13 +45,25 @@ class AddDeck extends Component {
 
   static propTypes = {
     dispatch: PropTypes.func.isRequired,
+    navigation: PropTypes.shape({
+      navigate: PropTypes.func.isRequired,
+    }).isRequired,
   };
 
   handleSubmit = () => {
     const { input } = this.state;
-    const { dispatch } = this.props;
+    const { dispatch, navigation } = this.props;
     createDeck(input)
       .then(dispatch(addDeck(input)));
+    navigation.navigate(
+      'DeckView',
+      {
+        deck: {
+          title: input,
+          cards: [],
+        },
+      },
+    );
     this.setState({ input: '' });
   };
 
