@@ -10,6 +10,7 @@ import {
 import PropTypes from 'prop-types';
 import { receiveDecks } from '../actions/deck';
 import { getDecks } from '../utils/api';
+import DeckViewDetails from './DeckViewDetails';
 
 const styles = StyleSheet.create({
   deck: {
@@ -17,19 +18,6 @@ const styles = StyleSheet.create({
     alignItems: 'stretch',
     backgroundColor: 'red',
     flexDirection: 'column',
-  },
-  deckText: {
-    fontSize: 40,
-    color: 'white',
-    fontFamily: 'Menlo-Bold',
-    textAlign: 'center',
-    marginTop: 50,
-  },
-  cardNumber: {
-    color: 'white',
-    fontSize: 15,
-    textAlign: 'center',
-    marginTop: 10,
   },
   error: {
     fontSize: 30,
@@ -87,12 +75,7 @@ class DeckList extends Component {
                 );
               }}
             >
-              <Text style={styles.deckText}>
-                {d.title}
-              </Text>
-              <Text style={styles.cardNumber}>
-                {`${d.cards.length} cards`}
-              </Text>
+              <DeckViewDetails title={d.title} questions={d.cards} />
             </TouchableOpacity>
           ))
           : <Text style={styles.error}> No deck available. </Text>

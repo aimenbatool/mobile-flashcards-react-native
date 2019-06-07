@@ -128,6 +128,7 @@ class Quiz extends Component {
       .then(setLocalNotification);
   }
 
+  // eslint-disable-next-line react/sort-comp
   shuffleQuestions() {
     const { navigation } = this.props;
     const { cards } = navigation.state.params;
@@ -188,6 +189,12 @@ class Quiz extends Component {
     this.resetNotification();
   }
 
+  calculateScore = () => {
+    const { correctAnswer, questions } = this.state;
+    this.resetNotification();
+    return `${correctAnswer}/${questions.length}`;
+  }
+
   render() {
     const frontAnimatedStyle = {
       transform: [
@@ -201,7 +208,7 @@ class Quiz extends Component {
       ],
     };
 
-    const { questions, currentQuestion, correctAnswer } = this.state;
+    const { questions, currentQuestion } = this.state;
 
     return (
       <View style={styles.container}>
@@ -266,7 +273,7 @@ class Quiz extends Component {
                   <View>
                     <Text style={styles.passingScoreText}>
                         Passing Score:
-                      {`${correctAnswer}/${questions.length}`}
+                      {this.calculateScore()}
                     </Text>
                     <View style={styles.scoreBoardBtn}>
                       <TouchableOpacity

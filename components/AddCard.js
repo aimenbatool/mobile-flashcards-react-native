@@ -65,6 +65,12 @@ class AddCard extends Component {
     });
   }
 
+  handleChange = (value, label) => {
+    this.setState({
+      [label]: value,
+    });
+  }
+
   render() {
     const { question, answer } = this.state;
     return (
@@ -76,13 +82,13 @@ class AddCard extends Component {
           <TextInput
             style={styles.card}
             placeholder="Enter your question..."
-            onChangeText={text => this.setState({ question: text })}
+            onChangeText={text => this.handleChange(text, 'question')}
             value={question}
           />
           <TextInput
             style={styles.card}
             placeholder="Enter your question..."
-            onChangeText={text => this.setState({ answer: text })}
+            onChangeText={text => this.handleChange(text, 'answer')}
             value={answer}
           />
           <TouchableOpacity style={styles.submit} onPress={this.handleSubmit}>
