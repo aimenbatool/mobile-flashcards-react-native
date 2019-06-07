@@ -2,6 +2,7 @@
 
 A React Native personal flash card app. It allows users to keep track of new learned items and revise them over the time.
 
+### Note: App is developed and tested for IOS.
 
 # Developing
 ## Prerequisites
