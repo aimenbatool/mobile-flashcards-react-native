@@ -75,6 +75,7 @@ class DeckView extends Component {
       navigate: PropTypes.func.isRequired,
     }).isRequired,
     dispatch: PropTypes.func.isRequired,
+    decks: PropTypes.objectOf(PropTypes.object).isRequired,
   }
 
   handleRemoveDeck = () => {
@@ -92,19 +93,20 @@ class DeckView extends Component {
   }
 
   render() {
-    const { navigation } = this.props;
+    const { navigation, decks } = this.props;
     const { deck } = navigation.state.params;
-    const { cards } = deck;
+    const { cards, title } = deck;
+
     return (
       <View style={styles.deckView}>
         <View style={styles.deckTitle}>
           <Text style={{ fontSize: 20 }}>
-            { deck.title }
+            { decks[title].title }
           </Text>
         </View>
         <View style={styles.cardCount}>
           <Text>
-            { `${cards.length} cards` }
+            { `${decks[title].cards.length} cards` }
           </Text>
         </View>
         <View style={styles.buttonsContainer}>
@@ -148,4 +150,8 @@ class DeckView extends Component {
   }
 }
 
-export default connect()(DeckView);
+const mapStateToProps = ({ decks }) => ({
+  decks,
+});
+
+export default connect(mapStateToProps)(DeckView);
