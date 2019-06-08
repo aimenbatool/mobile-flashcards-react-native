@@ -5,7 +5,6 @@ const styles = {
   deckText: {
     fontSize: 40,
     color: 'white',
-    fontFamily: 'Menlo-Bold',
     textAlign: 'center',
     marginTop: 50,
   },
