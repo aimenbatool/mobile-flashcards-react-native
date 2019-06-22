@@ -66,6 +66,8 @@ yarn start or expo start
 
 - Install the [Expo](https://expo.io) app on your iOS device.
 - Press 'e' in the terminal to send the app link to your email address or phone number. This link can be used to run your project from the Expo app.
+- OR you can press 'd' in terminal to open up developer tools where you'll be presented with a barcode. Open up iPhone camera, scan it and select "Open in Expo" popup.
 - Alternatively you can press 's' in the terminal and sign in with an Expo account, and sign in with the same account in the Expo app: your projects will automatically appear in the "Projects" tab.
+
 
 Expo CLI allows you to work with all of the [Components and APIs](https://facebook.github.io/react-native/docs/getting-started.html) in React Native, as well as the [JavaScript APIs](https://docs.expo.io/versions/latest/sdk/index.html) that the Expo app provides.
